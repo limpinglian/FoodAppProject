@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
 //        Fragment fragment = new All();
 //        ((All) fragment).addItem();
-        simpleFragmentPagerAdapter.addPage(new All(), "All");
+        simpleFragmentPagerAdapter.addPage(All.newInstance(), "All");
         simpleFragmentPagerAdapter.addPage(new Favourite(), "Favourite");
         simpleFragmentPagerAdapter.addPage(new Nearby(), "Nearby");
 

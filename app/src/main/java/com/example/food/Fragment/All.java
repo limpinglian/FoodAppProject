@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,7 +45,7 @@ import io.realm.RealmResults;
  */
 public class All extends Fragment {
     private RecyclerView recycler;
-    private SimpleFragmentPagerAdapter simpleFragmentPagerAdapter;
+private Restaurant restaurant;
     private RestaurantAdapter adapter;
     private Realm realm;
     private LayoutInflater inflater;
@@ -77,19 +78,27 @@ public class All extends Fragment {
 
         View rootView = inflater.inflate(R.layout.all, container, false);
         imageview = (ImageView)rootView. findViewById(R.id.iv);
+
+
         fab = (FloatingActionButton)rootView. findViewById(R.id.fab);
+recycler=(RecyclerView)rootView.findViewById(R.id.recycler);
 
         this.realm = RealmController.with(this).getRealm();
+        setupRecycler();
+
+
         // refresh the realm instance
-        RealmController.with(this).refresh();
+
         // get all persisted objects
         // create the helper adapter and notify data set changes
         // changes will be reflected automatically
+
 
         if (!Prefs.with(getActivity()).getPreLoad()) {
             setRealmData();
 
         }
+        RealmController.with(this).refresh();
 
         setRealmAdapter(RealmController.with(this).getRestaurant());
 
@@ -162,6 +171,15 @@ public class All extends Fragment {
         adapter.notifyDataSetChanged();
         return rootView;
     }
+
+    public void setRealmAdapter(RealmResults<Restaurant> restaurant) {
+
+        RealmRestaurantAdapter realmAdapter = new RealmRestaurantAdapter(getActivity().getApplicationContext(), restaurant, true);
+        // Set the data and tell the RecyclerView to draw
+        recycler.setAdapter(adapter);
+        adapter.setRealmAdapter(realmAdapter);
+        adapter.notifyDataSetChanged();
+    }
     private void setRealmData(){
 
         ArrayList<Restaurant> restaurantArrayList = new ArrayList<>();
@@ -185,6 +203,20 @@ public class All extends Fragment {
 
         Prefs.with(getActivity()).setPreLoad(true);
 
+    }
+    private void setupRecycler() {
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        recycler.setHasFixedSize(true);
+
+        // use a linear layout manager since the cards are vertically scrollable
+        final LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        recycler.setLayoutManager(layoutManager);
+
+        // create an empty adapter and add it to the recycler view
+        adapter = new RestaurantAdapter(getActivity());
+        recycler.setAdapter(adapter);
     }
 
     public String toString(){
@@ -288,13 +320,7 @@ public class All extends Fragment {
 
 
 
-    public void setRealmAdapter(RealmResults<Restaurant> restaurant) {
 
-        RealmRestaurantAdapter realmAdapter = new RealmRestaurantAdapter(getActivity().getApplicationContext(), restaurant, true);
-        // Set the data and tell the RecyclerView to draw
-        adapter.setRealmAdapter(realmAdapter);
-        adapter.notifyDataSetChanged();
-    }
 
 
 }

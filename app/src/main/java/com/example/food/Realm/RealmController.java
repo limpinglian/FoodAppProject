@@ -71,6 +71,13 @@ public class RealmController {
 
         return realm.where(Restaurant.class).findAll();
     }
+    public RealmResults<Restaurant> favRestaurant() {
+
+        return realm.where(Restaurant.class)
+                .equalTo("isFavourite",true)
+                .findAll();
+    }
+
 
     public Restaurant getRestaurant(String name) {
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DetailsActivity">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_gravity="top"
+        android:scaleType="fitXY"
+        android:padding="2dp"
+        android:id="@+id/ivRestaurant_Details"/>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:stepSize="1"
+        android:numStars="5"
+        android:id="@+id/Rate_Details"
+        android:visibility="visible"
+        android:paddingLeft="@dimen/margin_small"
+        android:paddingRight="@dimen/margin_small"
+        android:paddingBottom="@dimen/margin_normal"
+        android:paddingTop="@dimen/margin_normal"
+        />
+
+
+
+    <ToggleButton
+        android:id="@+id/button_favorite"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:background="@drawable/tooglebutton_selector"
+        android:checked="false"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        />
+
+</LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/Name_Details"
+        android:textSize="@dimen/text_size_normal"
+
+        />
+
+    <TextView
+        android:id="@+id/Description_Details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/text_size_normal"/>
+
+
+</LinearLayout>
+</android.support.design.widget.CoordinatorLayout>

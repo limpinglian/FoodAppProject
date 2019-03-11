@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,25 +51,16 @@ RecyclerView recycler;
         setupRecycler();
         RealmController.with(this).refresh();
 
-        setRealmAdapter(RealmController.with(this).getRestaurant());
-
+        RealmController.with(this).favRestaurant();
+        recycler.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
         return rootView;
     }
     public String toString(){
         return "Favourite";
     }
 
-    public void setRealmAdapter(RealmResults<Restaurant> restaurant) {
 
-        RealmRestaurantAdapter realmAdapter = new RealmRestaurantAdapter(getActivity().getApplicationContext(), restaurant, true);
-        // Set the data and tell the RecyclerView to draw
-        Realm realm = Realm.getDefaultInstance();
-       RealmResults<Restaurant>favRestaurant=realm.where(Restaurant.class).equalTo("isFavourite",true).findAll();
-        realm.commitTransaction();
-        recycler.setAdapter(adapter);
-        adapter.setRealmAdapter(realmAdapter);
-        adapter.notifyDataSetChanged();
-    }
 
     private void setupRecycler() {
         // use this setting to improve performance if you know that changes

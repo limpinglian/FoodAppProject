@@ -18,6 +18,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -25,7 +27,7 @@ import android.widget.Toast;
 import com.example.food.Adapter.RealmRestaurantAdapter;
 import com.example.food.Adapter.RestaurantAdapter;
 import com.example.food.App.Prefs;
-import com.example.food.MainActivity;
+import com.example.food.FabActivity;
 import com.example.food.Model.Restaurant;
 import com.example.food.R;
 import com.example.food.Realm.RealmController;
@@ -45,12 +47,13 @@ import io.realm.RealmResults;
  */
 public class All extends Fragment {
     private RecyclerView recycler;
-private Restaurant restaurant;
+    private Restaurant restaurant;
     private RestaurantAdapter adapter;
     private Realm realm;
     private LayoutInflater inflater;
-    private FloatingActionButton fab;
-
+    private FloatingActionButton fab,fab_add,fab_random;
+    Animation fabOpen,fabClose,fabClockwise,fabAnticlockwise;
+boolean isOpen=false;
     private static final String IMAGE_DIRECTORY = "/images";
     private int GALLERY = 1, CAMERA = 2;
 
@@ -62,8 +65,8 @@ private Restaurant restaurant;
         // Required empty public constructor
     }
 
-    public static All newInstance(){
-        All all=new All();
+    public static All newInstance() {
+        All all = new All();
         return all;
     }
 
@@ -73,16 +76,44 @@ private Restaurant restaurant;
                              Bundle savedInstanceState) {
 
 
-
-
-
         View rootView = inflater.inflate(R.layout.all, container, false);
-        imageview = (ImageView)rootView. findViewById(R.id.iv);
 
 
-        fab = (FloatingActionButton)rootView. findViewById(R.id.fab);
-recycler=(RecyclerView)rootView.findViewById(R.id.recycler);
-
+        fab = (FloatingActionButton) rootView.findViewById(R.id.fab);
+        recycler = (RecyclerView) rootView.findViewById(R.id.recycler);
+        fab_add=(FloatingActionButton)rootView.findViewById(R.id.fb_add);
+        fab_random=(FloatingActionButton)rootView.findViewById(R.id.fb_random);
+        fabOpen= AnimationUtils.loadAnimation(getActivity().getApplicationContext(),R.anim.fab_open);
+        fabClose= AnimationUtils.loadAnimation(getActivity().getApplicationContext(),R.anim.fab_close);
+        fabClockwise= AnimationUtils.loadAnimation(getActivity().getApplicationContext(),R.anim.rotate_clockwise);
+        fabAnticlockwise= AnimationUtils.loadAnimation(getActivity().getApplicationContext(),R.anim.rotate_anticlockwise);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isOpen){
+                    fab_add.startAnimation(fabClose);
+                    fab_random.startAnimation(fabClose);
+                    fab.startAnimation(fabAnticlockwise);
+                    fab_random.setClickable(false);
+                    fab_add.setClickable(false);
+                    isOpen=false;
+                }else {
+                    fab_add.startAnimation(fabOpen);
+                    fab_random.startAnimation(fabOpen);
+                    fab.startAnimation(fabClockwise);
+                    fab_random.setClickable(true);
+                    fab_add.setClickable(true);
+                    isOpen=true;
+                }
+            }
+        });
+        fab_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(getActivity(), FabActivity.class);
+                 getActivity().startActivityForResult(intent,1);
+            }
+        });
         this.realm = RealmController.with(this).getRealm();
         setupRecycler();
 
@@ -104,70 +135,14 @@ recycler=(RecyclerView)rootView.findViewById(R.id.recycler);
 
         Toast.makeText(getActivity(), "Press card item for edit, long press to remove item", Toast.LENGTH_LONG).show();
 
-        fab.setOnClickListener(new View.OnClickListener() {
+        /*fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                inflater2 = All.this.getLayoutInflater();
-                final View content = inflater2.inflate(R.layout.edit_item, null);
-                final EditText editTitle = (EditText) content.findViewById(R.id.name);
-                final EditText editType = (EditText) content.findViewById(R.id.type);
-                final EditText editDescription = (EditText) content.findViewById(R.id.description);
-                final ImageView imageView=(ImageView)content.findViewById(R.id.image_background);
-
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                LayoutInflater inflater = getLayoutInflater();
-                final View dialogLayout = inflater.inflate(R.layout.edit_item, null);
-                builder.setView(content)
-                        .setTitle("Add restaurant")
-                        .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-
-                                Restaurant restaurant = new Restaurant();
-
-
-                                restaurant.setRestaurantTitle(editTitle.getText().toString());
-                                restaurant.setRestaurantType(editType.getText().toString());
-                                restaurant.setDescription(editDescription.getText().toString());
-
-                                if (editTitle.getText() == null || editTitle.getText().toString().equals("") || editTitle.getText().toString().equals(" ")) {
-                                    Toast.makeText(getActivity(), "Entry not saved, missing title", Toast.LENGTH_SHORT).show();
-                                } else {
-                                    // Persist your data easily
-                                    realm.beginTransaction();
-                                    realm.copyToRealm(restaurant);
-                                    realm.commitTransaction();
-
-                                    adapter.notifyDataSetChanged();
-
-                                    // scroll the recycler view to bottom
-                                    recycler.scrollToPosition(RealmController.getInstance().getRestaurant().size() - 1);
-                                }
-                            }
-                        })
-                        .setNeutralButton("Select Image", new DialogInterface.OnClickListener(){
-                            public void onClick(DialogInterface dialog, int which) {
-                                showPictureDialog();
-
-
-                            }
-                        })
-
-                        .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-
-
-
-                AlertDialog dialog = builder.create();
-                dialog.show();
+              // Intent intent=new Intent(getActivity(), FabActivity.class);
+              // getActivity().startActivityForResult(intent,1);
             }
-        });
+        });*/
         adapter.notifyDataSetChanged();
         return rootView;
     }
@@ -180,7 +155,8 @@ recycler=(RecyclerView)rootView.findViewById(R.id.recycler);
         adapter.setRealmAdapter(realmAdapter);
         adapter.notifyDataSetChanged();
     }
-    private void setRealmData(){
+
+    private void setRealmData() {
 
         ArrayList<Restaurant> restaurantArrayList = new ArrayList<>();
 
@@ -193,7 +169,6 @@ recycler=(RecyclerView)rootView.findViewById(R.id.recycler);
         restaurantArrayList.add(restaurant);
 
 
-
         for (Restaurant r : restaurantArrayList) {
             // Persist your data easily
             realm.beginTransaction();
@@ -204,6 +179,7 @@ recycler=(RecyclerView)rootView.findViewById(R.id.recycler);
         Prefs.with(getActivity()).setPreLoad(true);
 
     }
+
     private void setupRecycler() {
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -219,16 +195,16 @@ recycler=(RecyclerView)rootView.findViewById(R.id.recycler);
         recycler.setAdapter(adapter);
     }
 
-    public String toString(){
+    public String toString() {
         return "All";
     }
 
-    private void showPictureDialog(){
+    private void showPictureDialog() {
         AlertDialog.Builder pictureDialog = new AlertDialog.Builder(getActivity());
         pictureDialog.setTitle("Select Action");
         String[] pictureDialogItems = {
                 "Select photo from gallery",
-                "Capture photo from camera" };
+                "Capture photo from camera"};
         pictureDialog.setItems(pictureDialogItems,
                 new DialogInterface.OnClickListener() {
                     @Override
@@ -269,7 +245,8 @@ recycler=(RecyclerView)rootView.findViewById(R.id.recycler);
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getActivity().getContentResolver(), contentURI);
                     String path = saveImage(bitmap);
 
-                    imageview.setImageBitmap(bitmap);
+                    if (imageview != null)
+                        imageview.setImageBitmap(bitmap);
                     Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
 
 
@@ -281,11 +258,13 @@ recycler=(RecyclerView)rootView.findViewById(R.id.recycler);
 
         } else if (requestCode == CAMERA) {
             Bitmap thumbnail = (Bitmap) data.getExtras().get("data");
-            imageview.setImageBitmap(thumbnail);
+            if (imageview != null)
+                imageview.setImageBitmap(thumbnail);
             saveImage(thumbnail);
             Toast.makeText(getActivity(), "Image Saved!", Toast.LENGTH_SHORT).show();
         }
     }
+
     public String saveImage(Bitmap myBitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes);
@@ -314,13 +293,6 @@ recycler=(RecyclerView)rootView.findViewById(R.id.recycler);
         }
         return "";
     }
-
-
-
-
-
-
-
 
 
 }

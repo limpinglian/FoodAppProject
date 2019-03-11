@@ -10,8 +10,10 @@
         android:layout_gravity="top"
         android:layout_marginTop="20dp"
         android:scaleType="fitXY"
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/iv"/>
+        android:clickable="true"
+        android:padding="2dp"
+
+        android:id="@+id/ivRestaurant"/>
 
     <EditText
     android:id="@+id/name"
@@ -21,13 +23,19 @@
     android:hint="Name"
     android:inputType="text" />
 
-    <EditText
-        android:id="@+id/type"
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/activity_horizontal_margin"
-        android:hint="Type"
-        android:inputType="text" />
+        android:text="Type:"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/spinner"></Spinner>
+
+
 
     <EditText
         android:id="@+id/description"
@@ -36,6 +44,51 @@
         android:layout_margin="@dimen/activity_horizontal_margin"
         android:hint="Description"
         android:inputType="text" />
+
+    <RatingBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX="0.5"
+        android:scaleY="0.5"
+        android:id="@+id/et_rate"
+        android:theme="@style/ImageRatingBar"
+        android:isIndicator="false"
+
+        android:stepSize="1"
+        android:numStars="5"
+        android:rating="0"
+        android:paddingLeft="@dimen/margin_small"
+        android:paddingRight="@dimen/margin_small"
+        android:paddingBottom="@dimen/margin_normal"
+        android:paddingTop="@dimen/margin_normal"
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:text="Ok"
+
+            />
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="15dp"
+            android:text="cancel"/>
+
+        <Button
+            android:id="@+id/btnUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Select Image"/>
+
+
+    </LinearLayout>
 
 
 

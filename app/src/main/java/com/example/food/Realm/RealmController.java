@@ -53,13 +53,12 @@ public class RealmController {
         return realm;
     }
 
-    //Refresh the realm istance
+
     public void refresh() {
 
         realm.refresh();
     }
 
-    //clear all objects from Book.class
     public void clearAll() {
 
         realm.beginTransaction();
@@ -67,13 +66,12 @@ public class RealmController {
         realm.commitTransaction();
     }
 
-    //find all objects in the Book.class
+
     public RealmResults<Restaurant> getRestaurant() {
 
         return realm.where(Restaurant.class).findAll();
     }
 
-    //query a single item with the given id
     public Restaurant getRestaurant(String name) {
 
         return realm.where(Restaurant.class).equalTo("Name", name).findFirst();
@@ -95,4 +93,5 @@ public class RealmController {
                 .findAll();
 
     }
+
 }

@@ -15,9 +15,11 @@
 
         <ImageView
             android:id="@+id/image_background"
-            android:layout_width="130dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical|start" />
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="top"
+            android:scaleType="fitXY"
+            />
 
         <LinearLayout
             android:id="@+id/layout_partner"
@@ -34,9 +36,9 @@
                 android:paddingBottom="@dimen/margin_normal"
                 android:paddingLeft="@dimen/margin_large"
                 android:paddingRight="@dimen/margin_large"
-                android:paddingTop="@dimen/margin_large"
+                android:paddingTop="@dimen/margin_normal"
                 android:textSize="@dimen/text_size_large"
-                android:textColor="#555555"
+                android:textColor="#0E0D0D"
                 android:textStyle="bold" />
 
             <TextView
@@ -47,8 +49,8 @@
                 android:paddingBottom="@dimen/margin_normal"
                 android:paddingLeft="@dimen/margin_large"
                 android:paddingRight="@dimen/margin_large"
-                android:paddingTop="@dimen/margin_large"
-                android:textSize="@dimen/text_size_large"
+                android:paddingTop="@dimen/margin_normal"
+                android:textSize="@dimen/text_size_normal"
                 android:textColor="#555555"
                 android:textStyle="italic" />
 
@@ -60,10 +62,32 @@
                 android:paddingBottom="@dimen/margin_normal"
                 android:paddingLeft="@dimen/margin_large"
                 android:paddingRight="@dimen/margin_large"
-                android:paddingTop="@dimen/margin_large"
-                android:textSize="@dimen/text_size_large"
+                android:paddingTop="@dimen/margin_normal"
+                android:textSize="@dimen/text_size_small"
                 android:textColor="#555555"
                 android:textStyle="normal" />
+            <RatingBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:id="@+id/rate"
+                android:progressBackgroundTint="@color/colorAccent"
+                android:progressTint="@color/colorAccent"
+                android:secondaryProgressTint="@color/colorAccent"
+                android:rating="0"
+                android:isIndicator="true"
+                android:theme="@style/ImageRatingBar"
+                android:stepSize="1"
+                android:numStars="5"
+                android:paddingLeft="@dimen/margin_small"
+                android:paddingRight="@dimen/margin_small"
+                android:paddingBottom="@dimen/margin_normal"
+                android:paddingTop="@dimen/margin_normal"
+
+
+                />
+
 
         </LinearLayout>
     </LinearLayout>

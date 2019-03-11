@@ -1,7 +1,12 @@
 package com.example.food.Adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
@@ -11,22 +16,35 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.food.App.Prefs;
+import com.example.food.DetailsActivity;
+import com.example.food.FabActivity;
 import com.example.food.Model.Restaurant;
 import com.example.food.R;
 import com.example.food.Realm.RealmController;
+import com.squareup.picasso.Picasso;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+
 
 public class RestaurantAdapter extends RealmRecycleViewAdapter<Restaurant>  {
     final Context context;
     private Realm realm;
     private LayoutInflater inflater;
+Restaurant restaurant;
+
+
+
+
+
+
 
     public RestaurantAdapter(Context context) {
 
@@ -42,24 +60,28 @@ public class RestaurantAdapter extends RealmRecycleViewAdapter<Restaurant>  {
 
         realm = RealmController.getInstance().getRealm();
 
+
+
         // get the article
         final Restaurant restaurant = getItem(position);
         // cast the generic view holder to our specific one
         final CardViewHolder holder = (CardViewHolder) viewHolder;
 
+        String sUri=restaurant.getImageRestaurant();
+
+
+        Uri uri=Uri.parse(sUri);
         // set the title and the snippet
         holder.textName.setText(restaurant.getRestaurantTitle());
         holder.textType.setText(restaurant.getRestaurantType());
         holder.textDescription.setText(restaurant.getDescription());
+        Picasso.get().load(uri).into(holder.imageBackground);
+        holder.totalsStar.setNumStars(restaurant.getRatingStar());
 
-        // load the background image
-        if (restaurant.getImageRestaurant() != null) {
-            Glide.with(context)
-                    .load(restaurant.getImageRestaurant().replace("https", "http"))
-                    .asBitmap()
-                    .fitCenter()
-                    .into(holder.imageBackground);
-        }
+
+
+
+
 
         //remove single match from realm
         holder.card.setOnLongClickListener(new View.OnLongClickListener() {
@@ -98,47 +120,51 @@ public class RestaurantAdapter extends RealmRecycleViewAdapter<Restaurant>  {
         @Override
         public void onClick(View v) {
 
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View content = inflater.inflate(R.layout.edit_item, null);
-            final EditText editName = (EditText) content.findViewById(R.id.name);
-            final EditText editType = (EditText) content.findViewById(R.id.type);
-            final EditText editDescription = (EditText) content.findViewById(R.id.description);
 
-            editName.setText(restaurant.getRestaurantTitle());
-            editType.setText(restaurant.getRestaurantType());
-            editDescription.setText(restaurant.getDescription());
+            Intent intent=new Intent(context, DetailsActivity.class);
+            intent.putExtra("id",restaurant.getId());
+            intent.putExtra("image",restaurant.getImageRestaurant());
+            intent.putExtra("rating",restaurant.getRatingStar());
+            intent.putExtra("nameRestaurant",restaurant.getRestaurantTitle());
+            intent.putExtra("descripRestaurant",restaurant.getDescription());
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setView(content)
-                    .setTitle("Edit Restaurant")
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+            ((Activity)context).startActivityForResult(intent,2);
 
-                            RealmResults<Restaurant> results = realm.where(Restaurant.class).findAll();
 
-                            realm.beginTransaction();
-                            results.get(position).setRestaurantTitle(editName.getText().toString());
-                            results.get(position).setRestaurantType(editType.getText().toString());
-                            results.get(position).setDescription(editDescription.getText().toString());
+                /*inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View content = inflater.inflate(R.layout.edit_item, null);
+                final EditText editName = (EditText) content.findViewById(R.id.name);
+                final Spinner editType = (Spinner) content.findViewById(R.id.spinner);
+                final EditText editDescription = (EditText) content.findViewById(R.id.description);
 
-                            realm.commitTransaction();
+                editName.setText(restaurant.getRestaurantTitle());
 
-                            notifyDataSetChanged();
-                        }
-                    })
-                    .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                editDescription.setText(restaurant.getDescription());
 
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-            AlertDialog dialog = builder.create();
-            dialog.show();
-        }
+
+
+                RealmResults<Restaurant> results = realm.where(Restaurant.class).findAll();
+
+                realm.beginTransaction();
+                results.get(position).setRestaurantTitle(editName.getText().toString());
+                results.get(position).setRestaurantType(editType.getSelectedItem().toString());
+                results.get(position).setDescription(editDescription.getText().toString());
+
+                realm.commitTransaction();
+
+                notifyDataSetChanged();*/
+            }
+
+
+
+
+
+
     });
+
+
 }
+
     public int getItemCount() {
 
 
@@ -158,6 +184,7 @@ public class RestaurantAdapter extends RealmRecycleViewAdapter<Restaurant>  {
             public TextView textType;
             public TextView textDescription;
             public ImageView imageBackground;
+            public RatingBar totalsStar;
 
             public CardViewHolder(View itemView) {
                 // standard view holder pattern with Butterknife view injection
@@ -168,6 +195,7 @@ public class RestaurantAdapter extends RealmRecycleViewAdapter<Restaurant>  {
                 textType = (TextView) itemView.findViewById(R.id.text_type);
                 textDescription = (TextView) itemView.findViewById(R.id.text_description);
                imageBackground = (ImageView) itemView.findViewById(R.id.image_background);
+               totalsStar=(RatingBar)itemView.findViewById(R.id.rate);
             }
 
         }

@@ -14,4 +14,12 @@
 
     <string name="appbar_scrolling_view_behavior" translatable="false">android.support.design.widget.AppBarLayout$ScrollingViewBehavior</string>
 
+    <string-array name="types">
+        <item>Chinese food</item>
+        <item>Malay Food</item>
+        <item>Thai Food</item>
+        <item>Indian food</item>
+    </string-array>
+
+
 </resources>

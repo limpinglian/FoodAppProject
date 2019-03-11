@@ -1,12 +1,47 @@
 package com.example.food.Model;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 public class Restaurant extends RealmObject {
+    @PrimaryKey
+    private String id;
 
     private String ImageRestaurant;
     private String restaurantTitle;
     private String restaurantType;
+    private String description;
+    private int ratingStar;
+    private String area;
+    private String creationDate;
+    private boolean isFavourite;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+    public boolean isFavourite() {
+        return isFavourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        isFavourite = favourite;
+    }
+
+
+
+    public int getRatingStar() {
+        return ratingStar;
+    }
+
+    public void setRatingStar(int ratingStar) {
+        this.ratingStar = ratingStar;
+    }
+
+
 
     public String getImageRestaurant() {
         return ImageRestaurant;
@@ -40,13 +75,6 @@ public class Restaurant extends RealmObject {
         this.description = description;
     }
 
-    public String getRating() {
-        return rating;
-    }
-
-    public void setRating(String rating) {
-        this.rating = rating;
-    }
 
     public String getArea() {
         return area;
@@ -64,8 +92,4 @@ public class Restaurant extends RealmObject {
         this.creationDate = creationDate;
     }
 
-    private String description;
-    private String rating;
-    private String area;
-    private String creationDate;
 }

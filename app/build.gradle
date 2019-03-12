@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 28
@@ -45,7 +46,7 @@ dependencies {
 
     // Realm
 
-    implementation 'io.realm:realm-android:0.82.1'
+//    implementation 'io.realm:realm-android:0.82.1'
 
     // RecyclerView
     implementation 'com.android.support:recyclerview-v7:28.0.0'
@@ -53,4 +54,7 @@ dependencies {
     implementation 'com.android.support:cardview-v7:28.0.0'
 
     implementation 'com.karumi:dexter:5.0.0'
+
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.uphyca:stetho_realm:2.2.0'
 }

@@ -23,6 +23,7 @@ public class Restaurant extends RealmObject {
     public void setId(String id) {
         this.id = id;
     }
+
     public boolean isFavourite() {
         return isFavourite;
     }
@@ -31,8 +32,6 @@ public class Restaurant extends RealmObject {
         isFavourite = favourite;
     }
 
-
-
     public int getRatingStar() {
         return ratingStar;
     }
@@ -40,8 +39,6 @@ public class Restaurant extends RealmObject {
     public void setRatingStar(int ratingStar) {
         this.ratingStar = ratingStar;
     }
-
-
 
     public String getImageRestaurant() {
         return ImageRestaurant;
@@ -75,7 +72,6 @@ public class Restaurant extends RealmObject {
         this.description = description;
     }
 
-
     public String getArea() {
         return area;
     }
@@ -91,5 +87,4 @@ public class Restaurant extends RealmObject {
     public void setCreationDate(String creationDate) {
         this.creationDate = creationDate;
     }
-
 }

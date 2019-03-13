@@ -1,5 +1,6 @@
 package com.example.food;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -20,7 +21,6 @@ import android.widget.Toast;
 import com.example.food.Model.Restaurant;
 import com.example.food.Realm.RestaurantRealmHelper;
 import com.squareup.picasso.Picasso;
-
 
 import java.util.Random;
 
@@ -119,7 +119,12 @@ public class FabActivity extends AppCompatActivity {
 //                    recycler.scrollToPosition(RestaurantRealmHelper.getInstance().getRestaurant().size() );
 
                 }
+
+                Intent resultIntent = new Intent();
+                setResult(Activity.RESULT_OK, resultIntent);
+                finish();
             }
+
         });
     }
 

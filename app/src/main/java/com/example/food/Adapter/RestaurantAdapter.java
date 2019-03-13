@@ -13,19 +13,25 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
+
 import com.example.food.DetailsActivity;
 import com.example.food.Model.Restaurant;
 import com.example.food.R;
 import com.squareup.picasso.Picasso;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private final Context context;
     private List<Restaurant> restaurantList;
 
-    public RestaurantAdapter(Context context, List<Restaurant> restaurantList) {
+    public RestaurantAdapter(Context context, List<Restaurant> restaurants) {
         this.context = context;
-        this.restaurantList = restaurantList;
+        this.restaurantList = restaurants;
+        if (restaurantList == null) {
+            restaurantList = new ArrayList<>();
+        }
     }
 
     @NonNull
@@ -94,6 +100,12 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
             return restaurantList.get(index);
         else
             return null;
+    }
+
+    public void updateData(List<Restaurant> restaurants) {
+        restaurantList.clear();
+        restaurantList.addAll(restaurants);
+        notifyDataSetChanged();
     }
 
     public int getItemCount() {

@@ -27,6 +27,7 @@ public class Favourite extends Fragment {
     private RestaurantAdapter adapter;
     private RestaurantRealmHelper restaurantRealmHelper;
     private List<Restaurant> restaurantList;
+    RestaurantRealmHelper helper;
 
     public static Favourite newInstance() {
         return new Favourite();
@@ -45,6 +46,8 @@ public class Favourite extends Fragment {
         View rootView = inflater.inflate(R.layout.favourite, container, false);
 
         recycler = rootView.findViewById(R.id.recycler);
+
+
 
         return rootView;
     }

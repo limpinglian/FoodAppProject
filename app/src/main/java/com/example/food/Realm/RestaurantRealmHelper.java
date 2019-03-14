@@ -11,7 +11,8 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 
 public class RestaurantRealmHelper {
-
+    String id;
+    private Realm realm;
     public RestaurantRealmHelper() {
     }
 
@@ -21,6 +22,7 @@ public class RestaurantRealmHelper {
 
     public List<Restaurant> getRestaurant() {
         Realm realm = null;
+
         List<Restaurant> list = new ArrayList<>();
         try {
             realm = Realm.getDefaultInstance();
@@ -61,6 +63,7 @@ public class RestaurantRealmHelper {
         }
     }
 
+
     public List<Restaurant> getFavRestaurant() {
         Realm realm = null;
         List<Restaurant> list = new ArrayList<>();
@@ -79,6 +82,48 @@ public class RestaurantRealmHelper {
             }
         }
         return list;
+    }
+    public List<Restaurant> getEditItem() {
+        Realm realm = null;
+        List<Restaurant> list = new ArrayList<>();
+        try {
+            realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+            RealmResults<Restaurant> results = realm
+                    .where(Restaurant.class)
+                    .equalTo("id", id)
+                    .findAll();
+            list.addAll(realm.copyFromRealm(results));
+            realm.commitTransaction();
+        } finally {
+            if (realm != null) {
+                realm.close();
+            }
+        }
+        return list;
+    }
+
+    public void delRecord(String id) {
+        Realm realm = null;
+        try {
+            realm = Realm.getDefaultInstance();
+            realm.beginTransaction();
+           RealmResults<Restaurant> results=realm.where(Restaurant.class)
+                   .equalTo("id",id)
+                   .findAll();
+            if (results != null) {
+                results.deleteAllFromRealm();
+                realm.copyToRealm(results);
+                realm.commitTransaction();
+            }
+            realm.commitTransaction();
+        } catch (Exception e) {
+            Log.e("RealmHelper", e.getMessage());
+        } finally {
+            if (realm != null) {
+                realm.close();
+            }
+        }
     }
 
 

@@ -11,7 +11,7 @@ public class Restaurant extends RealmObject {
     private String restaurantTitle;
     private String restaurantType;
     private String description;
-    private int ratingStar;
+    private float ratingStar;
     private String area;
     private String creationDate;
     private boolean isFavourite;
@@ -32,11 +32,11 @@ public class Restaurant extends RealmObject {
         isFavourite = favourite;
     }
 
-    public int getRatingStar() {
+    public float getRatingStar() {
         return ratingStar;
     }
 
-    public void setRatingStar(int ratingStar) {
+    public void setRatingStar(float ratingStar) {
         this.ratingStar = ratingStar;
     }
 

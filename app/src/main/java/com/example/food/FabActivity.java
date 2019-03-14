@@ -57,8 +57,8 @@ public class FabActivity extends AppCompatActivity {
 
         restaurantRealmHelper = new RestaurantRealmHelper();
 
-        final String totalStar = String.valueOf(ratingBar.getNumStars());
-        final int numStar = Integer.parseInt(totalStar);
+        final String totalStar = String.valueOf(ratingBar.getRating());
+        final float numStar = Float.parseFloat(totalStar);
 
         ArrayAdapter<String> tyAdapter = new ArrayAdapter<String>(FabActivity.this, android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.types));
         tyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -102,12 +102,12 @@ public class FabActivity extends AppCompatActivity {
                 restaurant.setRestaurantType(tySpinner.getSelectedItem().toString());
                 restaurant.setDescription(editDescription.getText().toString());
                 restaurant.setImageRestaurant(sUri);
-                restaurant.setRatingStar(numStar);
+                restaurant.setRatingStar(ratingBar.getRating());
 
                 if (editTitle.getText() == null || editDescription.getText().toString().equals("")) {
                     Toast.makeText(FabActivity.this, "Entry not saved, missing info", Toast.LENGTH_SHORT).show();
-                } else if (numStar == 0) {
-                    Toast.makeText(FabActivity.this, "Entry not saved, missing info", Toast.LENGTH_SHORT).show();
+                } else if (ratingBar.getRating() == 0.0) {
+                    Toast.makeText(FabActivity.this, "Please Rate", Toast.LENGTH_SHORT).show();
                 } else {
                     // Persist your data easily
                     restaurantRealmHelper.getRealm().beginTransaction();
@@ -117,12 +117,12 @@ public class FabActivity extends AppCompatActivity {
 
                     // scroll the recycler view to bottom
 //                    recycler.scrollToPosition(RestaurantRealmHelper.getInstance().getRestaurant().size() );
-
+                    Intent resultIntent = new Intent();
+                    setResult(Activity.RESULT_OK, resultIntent);
+                    finish();
                 }
 
-                Intent resultIntent = new Intent();
-                setResult(Activity.RESULT_OK, resultIntent);
-                finish();
+
             }
 
         });

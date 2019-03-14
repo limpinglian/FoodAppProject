@@ -18,14 +18,49 @@
         android:scaleType="fitXY"
         android:padding="2dp"
         android:id="@+id/ivRestaurant_Details"/>
-<LinearLayout
+
+<RelativeLayout
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:id="@+id/Name_Details"
+        android:textSize="@dimen/text_size_normal"
+        android:textStyle="bold"
+
+        />
+
+
+    <ToggleButton
+        android:id="@+id/button_favorite"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="right"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/tooglebutton_selector"
+        android:checked="false"
+        android:text=""
+        android:textOff=""
+        android:textOn=""
+        />
+
+</RelativeLayout>
+
+    <TextView
+        android:id="@+id/Description_Details"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/text_size_normal"/>
 
     <RatingBar
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="left"
         android:scaleX="0.5"
         android:scaleY="0.5"
         android:stepSize="1"
@@ -40,35 +75,32 @@
 
 
 
-    <ToggleButton
-        android:id="@+id/button_favorite"
-        android:layout_width="160dp"
-        android:layout_height="160dp"
-        android:background="@drawable/tooglebutton_selector"
-        android:checked="false"
-        android:text=""
-        android:textOff=""
-        android:textOn=""
-        />
-
-</LinearLayout>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:id="@+id/Name_Details"
-        android:textSize="@dimen/text_size_normal"
-
-        />
-
-    <TextView
-        android:id="@+id/Description_Details"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="@dimen/activity_horizontal_margin"
-        android:textSize="@dimen/text_size_normal"/>
 
 
 </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fb_del"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/fab_margin_right"
+        android:layout_marginBottom="100dp"
+        android:src="@drawable/ic_delete_black_24dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:elevation="6dp"
+        android:layout_gravity="bottom|right"
+        app:pressedTranslationZ="12dp"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabEdit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_mode_edit_black_24dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:elevation="4dp"
+        android:layout_gravity="bottom|right|end"
+        app:pressedTranslationZ="12dp" />
+
 </android.support.design.widget.CoordinatorLayout>

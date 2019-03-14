@@ -55,7 +55,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         holder.textName.setText(restaurant.getRestaurantTitle());
         holder.textType.setText(restaurant.getRestaurantType());
         holder.textDescription.setText(restaurant.getDescription());
-        holder.totalsStar.setNumStars(restaurant.getRatingStar());
+        holder.totalsStar.setRating(restaurant.getRatingStar());
         Picasso.get().load(uri).into(holder.imageBackground);
 
         holder.card.setOnClickListener(new View.OnClickListener() {
